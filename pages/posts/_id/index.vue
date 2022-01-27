@@ -1,18 +1,20 @@
 <template>
   <div class="single-post-page">
     <section class="post">
-      <h1 class="post-title">Title of the Post</h1>
+      <h1 class="post-title">{{ loadedPost.title }}</h1>
       <div class="post-details">
-        <div class="post-detail">Last updated on XXX</div>
-        <div class="post-detail">Written by NAME</div>
+        <div class="post-detail">
+          Last updated on {{ loadedPost.updatedDate }}
+        </div>
+        <div class="post-detail">Written by NAME: {{ loadedPost.author }}</div>
       </div>
-      <p class="post-content">Content of the post</p>
+      <p class="post-content">{{ loadedPost.content }}</p>
     </section>
     <section class="post-feedback">
       <p>
         Let me know what you think about the post, send a mail to
-        <a href="mailto:feedback@my-awesome-domain.com"
-          >feedback@my-awesome-domain.com</a
+        <a href="mailto:hadidbilla449@gmail.com"
+          >feedback@hadidbilla449@gmail.com</a
         >.
       </p>
     </section>
@@ -20,7 +22,27 @@
 </template>
 
 <script>
-export default {};
+import axios from "axios";
+export default {
+  // data() {
+  //   return {
+  //     loadedPost: {},
+  //   };
+  // },
+  asyncData(context) {
+    console.log(context.params.id);
+    return axios
+      .get(
+        `https://nuxt-maxi-default-rtdb.firebaseio.com/posts/${context.params.id}.json`
+      )
+      .then((res) => {
+        return {
+          loadedPost: res.data,
+        };
+      })
+      .catch((err) => console.log(context.err(err)));
+  },
+};
 </script>
 
 <style scoped>

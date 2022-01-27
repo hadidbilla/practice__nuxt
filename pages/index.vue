@@ -3,7 +3,7 @@
     <section class="intro">
       <h1>Get the latest tech news!</h1>
     </section>
-    <PostList />
+    <PostList :posts="loadedPosts" />
   </div>
 </template>
 
@@ -22,6 +22,11 @@ export default {
   methods: {
     changeRoute() {
       this.$router.push("/users/" + this.userId);
+    },
+  },
+  computed: {
+    loadedPosts() {
+      return this.$store.getters.loadedPosts;
     },
   },
 };
